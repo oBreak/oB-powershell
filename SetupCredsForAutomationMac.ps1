@@ -3,16 +3,17 @@
 # Helpful guide: http://duffney.io/AddCredentialsToPowerShellFunctions
 
 
+$scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
 
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+# Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
 # Get current username
 $usersName = $env:UserName
 
 # Make string for directory
-$partOne = "C:\Users\"
-$partTwo = "\Documents\Folder\"
-$dirPath = $partOne + $usersName + $partTwo
+$partOne = $scriptPath
+$partTwo = "/creds/"
+$dirPath = $partOne + $partTwo
 # Check if directory exists
 
 $isThere = Test-Path $dirPath
@@ -22,10 +23,10 @@ if ($isThere -eq 1){
     Write-Host('Directory Exists')
 }else{
     Write-Host('Creating Directory')
-    New-Item -Path ($partOne + $usersName + "\Documents\") -Name "Folder" -ItemType "directory"
+    New-Item -Path ($partOne) -Name "/creds" -ItemType "directory"
 }
 
 # Get password and store
 
 $myCred = Read-Host "Please enter password to be stored: "
-"<EnterPassword>" | ConvertTo-SecureString -AsPlainText -Force | ConvertFrom-SecureString | out-file $dirPath\PW.txt
+"<EnterPassword>" | ConvertTo-SecureString -AsPlainText -Force | ConvertFrom-SecureString | out-file $dirPath\jiracreds.txt

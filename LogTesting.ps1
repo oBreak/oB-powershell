@@ -8,8 +8,14 @@ function LogForm($msg){
 }
 
 LogForm("Begin log for current run.")
+LogForm("Some other stuff.")
+LogForm("Some other stuff.")
+LogForm("More")
+LogForm("Some other stuff.")
 
 
-WRITE-HOST $activityLog
-
+foreach ($element in $activityLog)
+{
+    $element
+}
 #Get-Variable -Scope global
